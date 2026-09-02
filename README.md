@@ -78,14 +78,21 @@ Issue のコメントに、直した**全文**を ``` で囲んで書き、同�
 | `feed-1.jpg` `feed-2.jpg` | フィード投稿 | 1080×1350（縦4:5） |
 | `story-1.jpg` `story-2.jpg` | ストーリーズ | 1080×1920（縦9:16） |
 
-元の絵（`namaoke-1.png` `namaoke-2.png`）から作り直すときは、これで作れます。
+**新しいポスターを `images/namaoke-1.png` `images/namaoke-2.png` として置き**（jpg でも HEIC でも大丈夫です）、
+これを動かせば、4枚とも作り直されます。
 
 ```bash
-sips -s format jpeg -s formatOptions 90 images/namaoke-1.png --out images/feed-1.jpg
-sips -s format jpeg -s formatOptions 90 --padToHeightWidth 1920 1080 --padColor F7EFDC images/namaoke-1.png --out images/story-1.jpg
+bash scripts/make-images.sh
 ```
 
-`--padColor` は、上下に足す帯の色です（ポスターの地の色に近い値にします）。
+ストーリーズは縦長なので、上下に帯を足します。帯の色は既定でクリーム色です。
+ポスターの地の色が違うときは、こう指定します。
+
+```bash
+bash scripts/make-images.sh --pad1 F7EFDC --pad2 3A2A1E
+```
+
+作り直したら、**必ず目で見て確かめてから** GitHub に送ってください。
 
 ---
 
