@@ -32,6 +32,8 @@ def ask(label, secret=True):
 
 def main():
     print(__doc__)
+    if "--help" in sys.argv or "-h" in sys.argv:
+        return  # 説明だけ読みたいときは、ここで終わります
     app_id = ask("アプリID（数字）", secret=False)
     app_secret = ask("アプリシークレット（打っても画面には出ません）")
     short_token = ask("ユーザーアクセストークン（打っても画面には出ません）")
