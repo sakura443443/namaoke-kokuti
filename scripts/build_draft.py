@@ -101,14 +101,9 @@ def render(platform, date, members, cfg):
         shop["address"],
     ]
 
-    # 予約先の書き方は投稿先で変わります。
-    # Instagram では「このアカウント」で通じますが、Facebook では通じません。
-    if platform == "instagram":
-        lines.append(f"ご予約：{shop['tel']}／このアカウントのDM")
-    else:
-        lines.append(f"ご予約：{shop['tel']}／Instagram @{shop['instagram_main']} のDM")
-
-    lines += ["", "ご予約お待ちしてます。", "", " ".join(cfg["hashtags"][platform])]
+    # 電話番号と「ご予約お待ちしてます。」は、さくらさんのご指示で入れません
+    #（2026-09-02）。毎週の定例なので、予約を促す形にはしていません。
+    lines += ["", " ".join(cfg["hashtags"][platform])]
     return "\n".join(lines)
 
 
