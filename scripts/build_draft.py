@@ -101,9 +101,10 @@ def render(platform, date, members, cfg):
         shop["address"],
     ]
 
-    # 電話番号と「ご予約お待ちしてます。」は、さくらさんのご指示で入れません
-    #（2026-09-02）。毎週の定例なので、予約を促す形にはしていません。
-    lines += ["", " ".join(cfg["hashtags"][platform])]
+    # 「ご予約：…／このアカウントのDM」と「ご予約お待ちしてます。」は入れません
+    #（2026-09-02 さくらさんの指示）。毎週の定例なので、予約を促す形にしていません。
+    # ただし電話番号そのものは残します。
+    lines += [shop["tel"], "", " ".join(cfg["hashtags"][platform])]
     return "\n".join(lines)
 
 
