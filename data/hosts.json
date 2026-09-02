@@ -1,0 +1,45 @@
+{
+  "_説明": [
+    "毎週水曜『生バンドカラオケ』のホストミュージシャン表です。",
+    "自動投稿はこのファイルを見てメンバーを決めます。ここが原典です。",
+    "「週」は、その水曜が属する月の1日から数えて何回目の水曜か、です。",
+    "月に水曜が5回ある月だけ week5 を使います。",
+    "",
+    "ig / fb は、その人のアカウント名です（@ は付けません）。",
+    "空欄のままでも動きます。空欄の人はタグ付けもメンションもしません。",
+    "わかった人から書き足してください。",
+    "",
+    "メンバーが変わったら、このファイルと",
+    "../koukoku/生バンドカラオケ-ホストメンバー.md の両方を直してください。"
+  ],
+
+  "week1": [
+    { "name": "近藤有輝", "instrument": "piano", "ig": "", "fb": "" },
+    { "name": "北川弘幸", "instrument": "bass",  "ig": "", "fb": "" },
+    { "name": "渡辺慶司", "instrument": "drums", "ig": "", "fb": "" }
+  ],
+  "week2": [
+    { "name": "野々田久嗣", "instrument": "guitar", "ig": "", "fb": "" },
+    { "name": "ダグ伊藤",   "instrument": "piano",  "ig": "", "fb": "" },
+    { "name": "木全希巨人", "instrument": "bass",   "ig": "", "fb": "" },
+    { "name": "猿渡泰幸",   "instrument": "drums",  "ig": "", "fb": "" }
+  ],
+  "week3": [
+    { "name": "森江以子", "instrument": "piano", "ig": "", "fb": "" },
+    { "name": "森康高",   "instrument": "bass",  "ig": "", "fb": "" },
+    { "name": "鷲見宏司", "instrument": "drums", "ig": "", "fb": "" },
+    { "name": "浅井豊",   "instrument": "vib",   "ig": "", "fb": "" }
+  ],
+  "week4": [
+    { "name": "平井尚之", "instrument": "sax",   "ig": "", "fb": "" },
+    { "name": "小森佳登", "instrument": "piano", "ig": "", "fb": "" },
+    { "name": "北川弘幸", "instrument": "bass",  "ig": "", "fb": "" },
+    { "name": "村瀬俊介", "instrument": "drums", "ig": "", "fb": "" }
+  ],
+  "week5": [
+    { "name": "平井尚之", "instrument": "sax",   "ig": "", "fb": "" },
+    { "name": "小森佳登", "instrument": "piano", "ig": "", "fb": "" },
+    { "name": "北川弘幸", "instrument": "bass",  "ig": "", "fb": "" },
+    { "name": "猿渡泰幸", "instrument": "drums", "ig": "", "fb": "" }
+  ]
+}

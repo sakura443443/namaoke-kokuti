@@ -1,0 +1,97 @@
+name: 金曜11時 投稿する
+
+# GitHub の時計は世界標準時（UTC）です。日本時間から9時間引きます。
+# 金曜 11:00 JST = 金曜 02:00 UTC
+on:
+  schedule:
+    - cron: "0 2 * * 5"
+  workflow_dispatch:
+    inputs:
+      only:
+        description: "一部だけ投稿する（story にすると24時間で消えます。試すときに）"
+        required: false
+        type: choice
+        options: ["", "story", "feed", "instagram", "facebook"]
+        default: ""
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # 木曜と同じ計算をするので、必ず同じ日付になります。
+      # 中身は作り直さず、木曜に承認された下書きをそのまま使います。
+      - name: 承認された下書きを見つける
+        id: find
+        run: |
+          DRAFT=$(python3 scripts/build_draft.py --path-only)
+          echo "draft=$DRAFT" >> "$GITHUB_OUTPUT"
+          if [ ! -f "$DRAFT" ]; then
+            echo "::error::$DRAFT がありません。木曜の下書きが作られなかったようです。"
+            exit 1
+          fi
+
+      # 承認が無いのは故障ではないので、ここでは止めません。
+      - name: 承認のコメントがあるか確かめる
+        id: approval
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/github_issue.py approval --draft "${{ steps.find.outputs.draft }}"
+
+      - name: 承認が無かったので、今週は投稿しません
+        if: steps.approval.outputs.approved != 'true'
+        run: |
+          echo "::notice::承認のコメントが無いため、投稿を見送りました。"
+          echo "Issue に approve とコメントしてから、この画面の Re-run で投稿できます。"
+
+      - name: Instagram と Facebook に投稿する
+        if: steps.approval.outputs.approved == 'true'
+        env:
+          META_PAGE_TOKEN: ${{ secrets.META_PAGE_TOKEN }}
+          META_PAGE_ID:    ${{ secrets.META_PAGE_ID }}
+          IG_USER_ID:      ${{ secrets.IG_USER_ID }}
+          META_PLACE_ID:   ${{ secrets.META_PLACE_ID }}
+          SUMMARY_FILE:    summary.md
+        run: |
+          python3 scripts/post.py \
+            --draft "${{ steps.find.outputs.draft }}" \
+            --approval .approval.json \
+            ${{ inputs.only && format('--only {0}', inputs.only) || '' }}
+
+      # 投稿を試したときは、成功でも失敗でも必ず結果を知らせます。
+      - name: 結果を Issue に書いて閉じる
+        if: always() && steps.approval.outputs.approved == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ ! -f summary.md ]; then
+            {
+              echo "### ❌ 投稿できませんでした"
+              echo ""
+              echo "途中で止まってしまいました。下の記録に、Meta が返した理由が出ています。"
+              echo ""
+              echo "実行の記録: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            } > summary.md
+          fi
+          python3 scripts/github_issue.py comment \
+            --draft "${{ steps.find.outputs.draft }}" --file summary.md \
+            ${{ job.status == 'success' && '--close' || '' }}
+
+      - name: 投稿の記録を残す
+        if: always() && steps.approval.outputs.approved == 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add logs/
+          git diff --staged --quiet || git commit -m "投稿の記録 ${{ steps.find.outputs.draft }}"
+          git push

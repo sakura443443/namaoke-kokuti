@@ -1,0 +1,50 @@
+name: 月1回 鍵が生きているか確かめる
+
+# 気づかないうちに投稿が止まるのを防ぐための見張りです。
+# 毎月1日 11:00 JST = 毎月1日 02:00 UTC
+on:
+  schedule:
+    - cron: "0 2 1 * *"
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: トークンを確かめる
+        id: check
+        env:
+          META_PAGE_TOKEN: ${{ secrets.META_PAGE_TOKEN }}
+          IG_USER_ID:      ${{ secrets.IG_USER_ID }}
+        run: |
+          python3 - <<'PY'
+          import os, sys
+          sys.path.insert(0, "scripts")
+          import meta_api
+          token = os.environ["META_PAGE_TOKEN"]
+          try:
+              page = meta_api.check_token(token)
+              ig = meta_api.get(os.environ["IG_USER_ID"], {"fields": "username"}, token)
+              print(f"✅ 生きています。ページ「{page['name']}」／Instagram @{ig['username']}")
+          except meta_api.GraphError as e:
+              print(f"NG:{e.detail}")
+              sys.exit(1)
+          PY
+
+      - name: 切れていたら知らせる
+        if: failure()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue create \
+            --title "⚠️ 投稿の鍵が切れています — 作り直しが必要です" \
+            --body "$(printf '毎月の見張りで、Meta のトークンが使えなくなっていることがわかりました。\n\nこのままだと**金曜の自動投稿が止まります。**\n\n直し方は `セットアップ手順.md` の 4 と 5 をもう一度たどってください。\n（`scripts/setup_token.py` を動かし、出てきた `META_PAGE_TOKEN` を Secrets に入れ直します）\n\n記録: %s/%s/actions/runs/%s\n' "${{ github.server_url }}" "${{ github.repository }}" "${{ github.run_id }}")"
+        continue-on-error: true

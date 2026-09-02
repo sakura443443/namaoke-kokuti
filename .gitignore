@@ -1,0 +1,6 @@
+# 承認コメントの読み取り結果（その場かぎりのもの）
+.approval.json
+summary.md
+
+# Mac が勝手に作るファイル
+.DS_Store

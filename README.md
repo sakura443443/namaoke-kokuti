@@ -1,0 +1,132 @@
+# 生バンドカラオケ 自動告知
+
+毎週水曜の「生バンドカラオケ」の告知を、**毎週金曜11時に Instagram と Facebook へ自動で投稿**します。
+
+- Instagram：フィード（2枚のカルーセル）＋ ストーリーズ
+- Facebook ：フィード（写真2枚）＋ ストーリーズ
+- 位置情報「ミュージックカフェSAKURA」を毎回付けます
+- その週のホストミュージシャンを自動で切り替え、**その人のアカウントに自動でタグ付け**します
+
+**まだ動きません。** 先に [セットアップ手順.md](セットアップ手順.md) を終えてください。
+
+---
+
+## 毎週の流れ
+
+```
+木曜11時   下書きが GitHub の Issue に届きます（メールも来ます）
+             ↓
+        Issue に「approve」とコメント
+        （メールにそのまま返信してもかまいません）
+             ↓
+金曜11時   Instagram と Facebook へ投稿
+        結果が同じ Issue にコメントされ、Issue が閉じます
+```
+
+**`approve` と返さなかった週は、投稿しません。** 古い内容がうっかり出るのを防ぐためです。
+
+やっぱりやめたいときは、`やめます` `中止` などとコメントすれば投稿しません。
+
+### 文章を直したいとき
+
+Issue のコメントに、直した**全文**を ``` で囲んで書き、同じコメントに `approve` も書きます。
+1つ目の枠が Instagram 用、2つ目が Facebook 用です（1つだけなら両方に使います）。
+
+---
+
+## メンバーが変わったら
+
+[data/hosts.json](data/hosts.json) を直します。**ここが原典です。**
+
+```json
+{ "name": "近藤有輝", "instrument": "piano", "ig": "", "fb": "" }
+```
+
+- `ig` … その人の Instagram のアカウント名（`@` は付けません）
+- 空のままでも動きます。空の人はタグ付けもメンションもしません
+- 直したら、`../koukoku/生バンドカラオケ-ホストメンバー.md` も同じに直してください
+
+「週」は、**その水曜がその月の何回目の水曜か**です。
+月に水曜が5回ある月だけ `week5` を使います。
+
+---
+
+## 開催の内容・お店の情報が変わったら
+
+[data/config.json](data/config.json) を直します。料金・時間・ハッシュタグ・
+どこに投稿するか（`post_to`）を、ここで切り替えられます。
+
+```json
+"post_to": {
+  "instagram_feed":  true,
+  "instagram_story": true,
+  "facebook_feed":   true,
+  "facebook_story":  true
+}
+```
+
+`false` にすると、その投稿だけ止まります。
+
+---
+
+## ポスターを差し替えたいとき
+
+`images/` の4枚を入れ替えます。**名前は変えないでください。**
+
+| ファイル | 何に使うか | 大きさ |
+|---|---|---|
+| `feed-1.jpg` `feed-2.jpg` | フィード投稿 | 1080×1350（縦4:5） |
+| `story-1.jpg` `story-2.jpg` | ストーリーズ | 1080×1920（縦9:16） |
+
+元の絵（`namaoke-1.png` `namaoke-2.png`）から作り直すときは、これで作れます。
+
+```bash
+sips -s format jpeg -s formatOptions 90 images/namaoke-1.png --out images/feed-1.jpg
+sips -s format jpeg -s formatOptions 90 --padToHeightWidth 1920 1080 --padColor F7EFDC images/namaoke-1.png --out images/story-1.jpg
+```
+
+`--padColor` は、上下に足す帯の色です（ポスターの地の色に近い値にします）。
+
+---
+
+## 手元で確かめる
+
+投稿せずに、中身だけ見られます。
+
+```bash
+python3 scripts/build_draft.py --date 2026-09-03 --show
+```
+
+```bash
+python3 scripts/post.py --draft drafts/2026-09-09.json --dry-run
+```
+
+---
+
+## 中身
+
+| ファイル | 何をするもの |
+|---|---|
+| `scripts/build_draft.py` | 次回の水曜を求め、メンバーを引いて告知文を組む |
+| `scripts/post.py` | Instagram と Facebook に投稿する |
+| `scripts/github_issue.py` | 承認のやりとりを Issue でする |
+| `scripts/meta_api.py` | Meta の API を呼ぶ小さな部品 |
+| `scripts/setup_token.py` | 鍵を取る（はじめの一回だけ） |
+| `scripts/find_location.py` | 位置情報のID を調べる（はじめの一回だけ） |
+| `drafts/` | 毎週の下書きの記録 |
+| `logs/` | 投稿の結果の記録 |
+
+外から入れるライブラリは使っていません。Python さえあれば動きます。
+
+---
+
+## 分かっている決まりごと・できないこと
+
+- **ストーリーズには、本文・位置情報・タグ付けを付けられません。** Meta の API の仕様です。
+  画像だけが出ます。フィード投稿には全部付きます。
+- **Facebook は「ページ」にしか投稿できません。** 個人プロフィールへの自動投稿は
+  2018年に廃止されました。
+- Instagram は **1日100件**まで。週4件なので、まず届きません。
+- タグ付けは、**相手が非公開だったりタグを許可していないと失敗します。**
+  そのときは自動でタグ無しで投稿し直します。本文の `@` は残ります。
+- GitHub の予約実行は、混んでいると**数十分ずれる**ことがあります。

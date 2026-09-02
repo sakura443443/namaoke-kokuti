@@ -1,0 +1,43 @@
+{
+  "_説明": [
+    "お店の情報と、投稿の設定です。",
+    "image_base_url は、GitHub にこのフォルダを置いたあとの公開URLに書き換えてください。",
+    "（セットアップ手順.md の 3 に、そのやり方が書いてあります）"
+  ],
+
+  "image_base_url": "https://raw.githubusercontent.com/YOUR-GITHUB-NAME/namaoke-kokuti/main/images",
+  "images": {
+    "feed":  ["feed-1.jpg", "feed-2.jpg"],
+    "story": ["story-1.jpg", "story-2.jpg"]
+  },
+
+  "post_to": {
+    "instagram_feed":  true,
+    "instagram_story": true,
+    "facebook_feed":   true,
+    "facebook_story":  true
+  },
+
+  "shop": {
+    "name": "ミュージックカフェSAKURA",
+    "address": "岐阜市金園町1-8（名鉄岐阜駅より徒歩8分）",
+    "tel": "080-4300-0443",
+    "instagram_main": "sakura443443",
+    "instagram_shop": "music_cafe_sakura",
+    "location_search_name": "MUSIC CAFE SAKURA"
+  },
+
+  "event": {
+    "open": "19:30",
+    "start": "20:00",
+    "end": "23:00",
+    "entry_fee": "2,000円（＋飲食代）",
+    "song_fee": "1曲 500円",
+    "repertoire": "2500曲以上"
+  },
+
+  "hashtags": {
+    "instagram": ["#ミュージックカフェsakura", "#岐阜ライブ", "#ライブ告知", "#生バンドカラオケ", "#岐阜カラオケ", "#岐阜ジャズ"],
+    "facebook":  ["#ミュージックカフェsakura", "#岐阜ライブ", "#生バンドカラオケ"]
+  }
+}
