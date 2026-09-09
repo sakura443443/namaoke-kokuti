@@ -12,34 +12,128 @@
     "メンバーが変わったら、このファイルと",
     "../koukoku/生バンドカラオケ-ホストメンバー.md の両方を直してください。"
   ],
-
   "week1": [
-    { "name": "近藤有輝", "instrument": "piano", "ig": "", "fb": "" },
-    { "name": "北川弘幸", "instrument": "bass",  "ig": "", "fb": "" },
-    { "name": "渡辺慶司", "instrument": "drums", "ig": "", "fb": "" }
+    {
+      "name": "近藤有輝",
+      "instrument": "piano",
+      "ig": "",
+      "fb": ""
+    },
+    {
+      "name": "北川弘幸",
+      "instrument": "bass",
+      "ig": "",
+      "fb": ""
+    },
+    {
+      "name": "渡辺慶司",
+      "instrument": "drums",
+      "ig": "",
+      "fb": ""
+    }
   ],
   "week2": [
-    { "name": "野々田久嗣", "instrument": "guitar", "ig": "", "fb": "" },
-    { "name": "ダグ伊藤",   "instrument": "piano",  "ig": "", "fb": "" },
-    { "name": "木全希巨人", "instrument": "bass",   "ig": "", "fb": "" },
-    { "name": "猿渡泰幸",   "instrument": "drums",  "ig": "", "fb": "" }
+    {
+      "name": "野々田久嗣",
+      "instrument": "guitar",
+      "ig": "hisashi.nonoda",
+      "fb": ""
+    },
+    {
+      "name": "ダグ伊藤",
+      "instrument": "piano",
+      "ig": "",
+      "fb": ""
+    },
+    {
+      "name": "木全希巨人",
+      "instrument": "bass",
+      "ig": "kimihitokimata",
+      "fb": ""
+    },
+    {
+      "name": "猿渡泰幸",
+      "instrument": "drums",
+      "ig": "",
+      "fb": ""
+    }
   ],
   "week3": [
-    { "name": "森江以子", "instrument": "piano", "ig": "", "fb": "" },
-    { "name": "森康高",   "instrument": "bass",  "ig": "", "fb": "" },
-    { "name": "鷲見宏司", "instrument": "drums", "ig": "", "fb": "" },
-    { "name": "浅井豊",   "instrument": "vib",   "ig": "", "fb": "" }
+    {
+      "name": "森江以子",
+      "instrument": "piano",
+      "ig": "",
+      "fb": ""
+    },
+    {
+      "name": "森康高",
+      "instrument": "bass",
+      "ig": "",
+      "fb": ""
+    },
+    {
+      "name": "鷲見宏司",
+      "instrument": "drums",
+      "ig": "",
+      "fb": ""
+    },
+    {
+      "name": "浅井豊",
+      "instrument": "vib",
+      "ig": "",
+      "fb": ""
+    }
   ],
   "week4": [
-    { "name": "平井尚之", "instrument": "sax",   "ig": "", "fb": "" },
-    { "name": "小森佳登", "instrument": "piano", "ig": "", "fb": "" },
-    { "name": "北川弘幸", "instrument": "bass",  "ig": "", "fb": "" },
-    { "name": "村瀬俊介", "instrument": "drums", "ig": "", "fb": "" }
+    {
+      "name": "平井尚之",
+      "instrument": "sax",
+      "ig": "",
+      "fb": ""
+    },
+    {
+      "name": "小森佳登",
+      "instrument": "piano",
+      "ig": "",
+      "fb": ""
+    },
+    {
+      "name": "北川弘幸",
+      "instrument": "bass",
+      "ig": "",
+      "fb": ""
+    },
+    {
+      "name": "村瀬俊介",
+      "instrument": "drums",
+      "ig": "",
+      "fb": ""
+    }
   ],
   "week5": [
-    { "name": "平井尚之", "instrument": "sax",   "ig": "", "fb": "" },
-    { "name": "小森佳登", "instrument": "piano", "ig": "", "fb": "" },
-    { "name": "北川弘幸", "instrument": "bass",  "ig": "", "fb": "" },
-    { "name": "猿渡泰幸", "instrument": "drums", "ig": "", "fb": "" }
+    {
+      "name": "平井尚之",
+      "instrument": "sax",
+      "ig": "",
+      "fb": ""
+    },
+    {
+      "name": "小森佳登",
+      "instrument": "piano",
+      "ig": "",
+      "fb": ""
+    },
+    {
+      "name": "北川弘幸",
+      "instrument": "bass",
+      "ig": "",
+      "fb": ""
+    },
+    {
+      "name": "猿渡泰幸",
+      "instrument": "drums",
+      "ig": "",
+      "fb": ""
+    }
   ]
 }
